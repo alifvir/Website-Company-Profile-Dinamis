@@ -56,6 +56,9 @@ class SliderController extends Controller
         $imageName = $image->getClientOriginalName(); // ip.jpg
         $imageName = explode(".",$image->getClientOriginalName()); // ['ip','jpg']
         $imageName = uniqid().".".end($imageName); // kjasndafbajb.jpg
+        // setelah image name diisi dengan nama dari foto tsb
+        // lalu diexpole atau dipisah per titik, menjadi ip dan jpg
+        // yang hasilnya akan digabungkan kembali bersama .end dan diberikan unik id lalu dijadikan image name
 
         // untuk menjadikan img dengan nama nya sendiri sesuai dengan dd
         $image->move($destinationPath,$imageName);
@@ -116,7 +119,7 @@ class SliderController extends Controller
             $imageName = $image->getClientOriginalName();
             // untuk menjadikan img dengan nama nya sendiri sesuai dengan dd
             $image->move($destinationPath,$imageName);
-            unlink($destinationPath.$slider->image);
+            unlink($destinationPath.$slider->image);        // agar saat didelete foto yg ada di folder juga terhapus
             $input['image'] = $imageName;
             // perintah ini untuk menampilkan gambar ke local host dengan nama foto diganti jadi tanggal sekarang 
            }else{
@@ -142,6 +145,7 @@ class SliderController extends Controller
         $slider->delete();
 
         unlink($destinationPath.$slider->image);
+        // agar saat didelete foto yg ada di folder juga terhapus
 
         return redirect('/admin/sliders')->with('message','Data berhasil dihapus');
     }
